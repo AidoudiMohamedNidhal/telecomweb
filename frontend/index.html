@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Ticketing System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn {
+            background: #3f51b5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: #303f9f;
+        }
+        
+        .btn-secondary {
+            background: #ff4081;
+        }
+        
+        .btn-secondary:hover {
+            background: #f50057;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+            color: #333;
+            pointer-events: auto !important;
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3f51b5;
+            box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+        }
+        
+        .form-control:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+        
+        input[type="password"] {
+            pointer-events: auto !important;
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            opacity: 1 !important;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3f51b5;
+        }
+        
+        .ticket-list {
+            margin-top: 2rem;
+        }
+        
+        .ticket-item {
+            background: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid #3f51b5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .priority-high {
+            border-left-color: #f44336;
+        }
+        
+        .priority-medium {
+            border-left-color: #ff9800;
+        }
+        
+        .priority-low {
+            border-left-color: #4caf50;
+        }
+        
+        .badge {
+            background: #3f51b5;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-info span {
+            color: white;
+            font-weight: bold;
+        }
+        
+        .admin-badge {
+            background: #ff9800;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📞 Telecom Ticketing System</h1>
+            <div id="authButtons">
+                <button class="btn" onclick="showLogin()">Login</button>
+                <button class="btn btn-secondary" onclick="showRegister()">Register</button>
+            </div>
+            <div id="userInfo" class="user-info hidden">
+                <span id="userName">Welcome!</span>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Home Section -->
+        <div id="home" class="card">
+            <h2>Welcome to Telecom Support</h2>
+            <p>Your reliable platform for managing support tickets and technical issues</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">150+</div>
+                    <div>Total Tickets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25</div>
+                    <div>New Tickets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100</div>
+                    <div>Resolved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50</div>
+                    <div>Active Users</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn" onclick="showCreateTicket()">Create New Ticket</button>
+                <button class="btn btn-secondary" onclick="showTickets()">View Tickets</button>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="login" class="card hidden">
+            <h2>Login</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" class="form-control" id="loginPassword" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+            </form>
+        </div>
+
+        <!-- Register Section -->
+        <div id="register" class="card hidden">
+            <h2>Register</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" class="form-control" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" class="form-control" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone (Optional):</label>
+                    <input type="tel" class="form-control" id="registerPhone">
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" class="form-control" id="registerPassword" required autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>Region:</label>
+                    <input type="text" class="form-control" id="registerRegion" placeholder="e.g., Tataouine">
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+            </form>
+        </div>
+
+        <!-- Create Ticket Section -->
+        <div id="createTicket" class="card hidden">
+            <h2>Create New Ticket</h2>
+            <form onsubmit="handleCreateTicket(event)">
+                <div class="form-group">
+                    <label>Subject:</label>
+                    <input type="text" class="form-control" id="ticketSubject" required>
+                </div>
+                <div class="form-group">
+                    <label>Category:</label>
+                    <select class="form-control" id="ticketCategory" required>
+                        <option value="">Select category</option>
+                        <option value="ADSL">ADSL</option>
+                        <option value="FIBRE">FIBRE</option>
+                        <option value="MOBILE">MOBILE</option>
+                        <option value="BILLING">BILLING</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Priority:</label>
+                    <select class="form-control" id="ticketPriority" required>
+                        <option value="LOW">Low</option>
+                        <option value="MEDIUM" selected>Medium</option>
+                        <option value="HIGH">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea class="form-control" id="ticketDescription" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Region (Optional):</label>
+                    <input type="text" class="form-control" id="ticketRegion" placeholder="e.g., Tataouine">
+                </div>
+                <div class="form-group">
+                    <label>Contact Phone (Optional):</label>
+                    <input type="tel" class="form-control" id="ticketPhone">
+                </div>
+                <button type="submit" class="btn">Create Ticket</button>
+                <button type="button" class="btn btn-secondary" onclick="showHome()">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Tickets List Section -->
+        <div id="ticketsList" class="card hidden">
+            <h2>My Tickets</h2>
+            <div class="ticket-list">
+                <div class="ticket-item priority-high">
+                    <div>
+                        <strong>TT-20260122-0001</strong> - Internet connection down
+                        <br><small>FIBRE • HIGH • NEW • 2026-01-22</small>
+                    </div>
+                    <span class="badge">NEW</span>
+                </div>
+                <div class="ticket-item priority-medium">
+                    <div>
+                        <strong>TT-20260122-0002</strong> - Mobile network issues
+                        <br><small>MOBILE • MEDIUM • ASSIGNED • 2026-01-22</small>
+                    </div>
+                    <span class="badge">ASSIGNED</span>
+                </div>
+                <div class="ticket-item priority-low">
+                    <div>
+                        <strong>TT-20260121-0005</strong> - Billing inquiry
+                        <br><small>BILLING • LOW • RESOLVED • 2026-01-21</small>
+                    </div>
+                    <span class="badge" style="background: #4caf50;">RESOLVED</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn" onclick="showCreateTicket()">Create New Ticket</button>
+                <button class="btn btn-secondary" onclick="showHome()">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Force cache refresh
+        console.log('Loading Telecom Ticketing System v1.1 - Cache Busted');
+        
+        function hideAll() {
+            document.getElementById('home').classList.add('hidden');
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('register').classList.add('hidden');
+            document.getElementById('createTicket').classList.add('hidden');
+            document.getElementById('ticketsList').classList.add('hidden');
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateAuthUI();
+            showHome();
+            alert('Logged out successfully!');
+        }
+
+        function updateAuthUI() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const authButtons = document.getElementById('authButtons');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+            
+            if (token && user) {
+                const userData = JSON.parse(user);
+                authButtons.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                userName.innerHTML = `Welcome, ${userData.name}!${userData.role === 'ADMIN' ? '<span class="admin-badge">ADMIN</span>' : ''}`;
+            } else {
+                authButtons.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+            }
+        }
+
+        function showHome() {
+            hideAll();
+            document.getElementById('home').classList.remove('hidden');
+            updateAuthUI();
+        }
+
+        function showLogin() {
+            hideAll();
+            document.getElementById('login').classList.remove('hidden');
+            // Test password field
+            const passwordField = document.getElementById('loginPassword');
+            if (passwordField) {
+                passwordField.disabled = false;
+                passwordField.readOnly = false;
+                passwordField.style.pointerEvents = 'auto';
+                passwordField.style.userSelect = 'text';
+                passwordField.focus();
+                console.log('Password field found and enabled');
+            }
+        }
+
+        function showRegister() {
+            hideAll();
+            document.getElementById('register').classList.remove('hidden');
+            // Test password field
+            const passwordField = document.getElementById('registerPassword');
+            if (passwordField) {
+                passwordField.disabled = false;
+                passwordField.readOnly = false;
+                passwordField.style.pointerEvents = 'auto';
+                passwordField.style.userSelect = 'text';
+                passwordField.focus();
+                console.log('Register password field found and enabled');
+            }
+        }
+
+        function showCreateTicket() {
+            hideAll();
+            document.getElementById('createTicket').classList.remove('hidden');
+        }
+
+        function showTickets() {
+            hideAll();
+            document.getElementById('ticketsList').classList.remove('hidden');
+            loadTickets();
+        }
+
+        async function loadTickets() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Show mock data if not logged in
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/tickets', {
+                    mode: 'cors',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayTickets(data.tickets);
+                } else {
+                    console.error('Failed to load tickets:', response.status);
+                }
+            } catch (error) {
+                console.error('Error loading tickets:', error);
+                alert('Error loading tickets: ' + error.message);
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded - initializing...');
+            updateAuthUI();
+            showHome();
+            
+            // Test backend connection
+            testBackendConnection();
+        });
+
+        async function testBackendConnection() {
+            try {
+                console.log('Testing backend connection...');
+                const response = await fetch('http://localhost:3000/health', {
+                    mode: 'cors'
+                });
+                console.log('Backend test response:', response.status);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Backend is working:', data);
+                } else {
+                    console.error('Backend test failed:', response.status);
+                }
+            } catch (error) {
+                console.error('Backend connection test failed:', error);
+            }
+        }
+
+        function displayTickets(tickets) {
+            const ticketList = document.querySelector('.ticket-list');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            if (!tickets || tickets.length === 0) {
+                ticketList.innerHTML = '<p>No tickets found</p>';
+                return;
+            }
+            
+            ticketList.innerHTML = tickets.map(ticket => {
+                let actions = '';
+                if (user.role === 'ADMIN') {
+                    actions = `
+                        <div style="margin-top: 0.5rem;">
+                            ${ticket.status !== 'RESOLVED' ? `<button class="btn" onclick="resolveTicket('${ticket.id}')">Resolve Ticket</button>` : ''}
+                            ${ticket.status !== 'CLOSED' ? `<button class="btn btn-secondary" onclick="closeTicket('${ticket.id}')">Close Ticket</button>` : ''}
+                        </div>
+                    `;
+                }
+                
+                return `
+                    <div class="ticket-item priority-${ticket.priority.toLowerCase()}">
+                        <div>
+                            <strong>${ticket.code}</strong> - ${ticket.subject}
+                            <br><small>${ticket.category} • ${ticket.priority} • ${ticket.status} • ${new Date(ticket.created_at).toLocaleDateString()}</small>
+                            ${actions}
+                        </div>
+                        <span class="badge">${ticket.status}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function resolveTicket(ticketId) {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/tickets/${ticketId}/resolve`, {
+                    method: 'PUT',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Ticket resolved successfully!');
+                    loadTickets();
+                } else {
+                    const error = await response.json();
+                    alert('Failed to resolve ticket: ' + error.error);
+                }
+            } catch (error) {
+                alert('Connection error: ' + error.message);
+            }
+        }
+
+        async function closeTicket(ticketId) {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/api/tickets/${ticketId}/close`, {
+                    method: 'PUT',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Ticket closed successfully!');
+                    loadTickets();
+                } else {
+                    const error = await response.json();
+                    alert('Failed to close ticket: ' + error.error);
+                }
+            } catch (error) {
+                alert('Connection error: ' + error.message);
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            console.log('Attempting login with:', { email, password });
+            console.log('Backend URL: http://localhost:3000/api/auth/login');
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Login successful:', data);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    alert('Login successful!');
+                    updateAuthUI();
+                    showHome();
+                } else {
+                    const error = await response.json();
+                    console.error('Login failed:', error);
+                    alert('Login failed: ' + error.error);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Connection error: ' + error.message);
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const userData = {
+                name: document.getElementById('registerName').value,
+                email: document.getElementById('registerEmail').value,
+                phone: document.getElementById('registerPhone').value,
+                password: document.getElementById('registerPassword').value,
+                region: document.getElementById('registerRegion').value,
+                role: 'CLIENT'
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    alert('Registration successful! Please login.');
+                    showLogin();
+                } else {
+                    const error = await response.json();
+                    alert('Registration failed: ' + error.error);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Connection error: ' + error.message);
+            }
+        }
+
+        async function handleCreateTicket(event) {
+            event.preventDefault();
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login first');
+                showLogin();
+                return;
+            }
+            
+            const subject = document.getElementById('ticketSubject').value;
+            const description = document.getElementById('ticketDescription').value;
+            
+            // Client-side validation
+            if (subject.length < 5) {
+                alert('Subject must be at least 5 characters');
+                return;
+            }
+            if (description.length < 10) {
+                alert('Description must be at least 10 characters');
+                return;
+            }
+            
+            const ticketData = {
+                subject: subject,
+                category: document.getElementById('ticketCategory').value,
+                priority: document.getElementById('ticketPriority').value,
+                description: description,
+                region: document.getElementById('ticketRegion').value,
+                contactPhone: document.getElementById('ticketPhone').value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/tickets', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify(ticketData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    alert('Ticket created successfully! Ticket ID: ' + data.ticket.code);
+                    showTickets();
+                } else {
+                    const error = await response.json();
+                    alert('Failed to create ticket: ' + error.error);
+                }
+            } catch (error) {
+                console.error('Create ticket error:', error);
+                alert('Connection error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

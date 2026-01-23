@@ -1,0 +1,55 @@
+/* Global Styles */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.loading-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  
+  button {
+    margin-top: 1rem;
+  }
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.filter-field {
+  width: 100%;
+  max-width: 400px;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+}
+
+mat-card {
+  margin: 1rem;
+}
+
+.content {
+  padding: 1rem;
+}

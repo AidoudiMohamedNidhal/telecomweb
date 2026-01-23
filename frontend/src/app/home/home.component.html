@@ -1,0 +1,55 @@
+<div class="home-container">
+  <mat-toolbar color="primary">
+    <span>Telecom Ticketing System</span>
+  </mat-toolbar>
+
+  <div class="content">
+    <div class="hero-section">
+      <h1>Welcome to Telecom Support</h1>
+      <p>Your reliable platform for managing support tickets and technical issues</p>
+      
+      <div class="action-buttons" *ngIf="!isLoggedIn">
+        <button mat-raised-button color="primary" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+        <button mat-raised-button color="accent" routerLink="/register">
+          <mat-icon>person_add</mat-icon>
+          Register
+        </button>
+      </div>
+
+      <div class="action-buttons" *ngIf="isLoggedIn">
+        <button mat-raised-button color="primary" routerLink="/tickets">
+          <mat-icon>list</mat-icon>
+          My Tickets
+        </button>
+        <button mat-raised-button color="accent" routerLink="/tickets/create">
+          <mat-icon>add</mat-icon>
+          Create Ticket
+        </button>
+        <button mat-raised-button color="warn" routerLink="/admin/dashboard" *ngIf="isAdmin">
+          <mat-icon>dashboard</mat-icon>
+          Admin Dashboard
+        </button>
+      </div>
+    </div>
+
+    <div class="features">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Features</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>Create and track support tickets</li>
+            <li>Real-time status updates</li>
+            <li>Role-based access control</li>
+            <li>Comprehensive admin dashboard</li>
+            <li>Mobile-friendly interface</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

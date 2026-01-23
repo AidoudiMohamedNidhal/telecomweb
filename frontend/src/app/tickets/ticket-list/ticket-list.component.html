@@ -1,0 +1,109 @@
+<div class="ticket-list-container">
+  <mat-toolbar color="primary">
+    <span>My Tickets</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" routerLink="/tickets/create">
+      <mat-icon>add</mat-icon>
+      Create Ticket
+    </button>
+  </mat-toolbar>
+
+  <div class="content">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Ticket List</mat-card-title>
+        <mat-card-subtitle>View and manage your support tickets</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="filter-section">
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Search tickets</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search by subject, code...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="table-container">
+          <mat-table [dataSource]="dataSource">
+            <!-- Code Column -->
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">
+                <strong>{{ ticket.code }}</strong>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Subject Column -->
+            <ng-container matColumnDef="subject">
+              <mat-header-cell *matHeaderCellDef>Subject</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">{{ ticket.subject }}</mat-cell>
+            </ng-container>
+
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+              <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">
+                <mat-chip-list>
+                  <mat-chip>{{ ticket.category }}</mat-chip>
+                </mat-chip-list>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Priority Column -->
+            <ng-container matColumnDef="priority">
+              <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">
+                <mat-chip [color]="getPriorityColor(ticket.priority)">
+                  {{ ticket.priority }}
+                </mat-chip>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">
+                <mat-chip [color]="getStatusColor(ticket.status)">
+                  {{ ticket.status.replace('_', ' ') }}
+                </mat-chip>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Created At Column -->
+            <ng-container matColumnDef="created_at">
+              <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">
+                {{ ticket.created_at | date:'short' }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let ticket">
+                <button mat-icon-button color="primary" (click)="viewTicket(ticket)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+          <div class="loading-overlay" *ngIf="loading">
+            <mat-spinner></mat-spinner>
+          </div>
+
+          <div class="no-data" *ngIf="!loading && dataSource.data.length === 0">
+            <p>No tickets found</p>
+            <button mat-raised-button color="primary" routerLink="/tickets/create">
+              Create your first ticket
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

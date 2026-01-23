@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+  <span>Telecom Ticketing System</span>
+  <span class="spacer"></span>
+  
+  <ng-container *ngIf="isLoggedIn">
+    <span class="user-info">{{ currentUser?.name }}</span>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </ng-container>
+  
+  <ng-container *ngIf="!isLoggedIn">
+    <button mat-button routerLink="/login">Login</button>
+    <button mat-button routerLink="/register">Register</button>
+  </ng-container>
+</mat-toolbar>
+
+<mat-menu #userMenu="matMenu">
+  <mat-menu-item routerLink="/profile">Profile</mat-menu-item>
+  <mat-menu-item routerLink="/tickets" *ngIf="!isAdmin">My Tickets</mat-menu-item>
+  <mat-menu-item routerLink="/admin/dashboard" *ngIf="isAdmin">Admin Dashboard</mat-menu-item>
+  <mat-divider></mat-divider>
+  <mat-menu-item (click)="logout()">Logout</mat-menu-item>
+</mat-menu>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<style>
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .user-info {
+    margin-right: 1rem;
+    font-weight: 500;
+  }
+  
+  main {
+    min-height: calc(100vh - 64px);
+  }
+</style>
