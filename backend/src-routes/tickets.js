@@ -520,4 +520,50 @@ router.get('/:id/updates', canAccessTicket, async (req, res) => {
   }
 });
 
+// Delete ticket (admin only)
+router.delete('/:id', 
+  requireAdmin, 
+  canAccessTicket, 
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const ticketId = parseInt(id);
+      
+      if (isNaN(ticketId)) {
+        return res.status(400).json({ error: 'Invalid ticket ID' });
+      }
+      
+      // Check if ticket exists
+      const ticket = await Ticket.findById(ticketId);
+      if (!ticket) {
+        return res.status(404).json({ error: 'Ticket not found' });
+      }
+      
+      // Delete the ticket
+      await Ticket.delete(ticketId);
+      
+      // Try to notify ticket creator (non-critical)
+      try {
+        emitToUser(ticket.created_by_id, 'ticketDeleted', {
+          ticket: ticket,
+          deletedBy: {
+            id: req.user.id,
+            name: req.user.name
+          }
+        });
+      } catch (socketError) {
+        console.log('Socket notification failed (non-critical):', socketError.message);
+      }
+
+      res.json({
+        message: 'Ticket deleted successfully',
+        ticket: ticket
+      });
+    } catch (error) {
+      console.error('Delete ticket error:', error);
+      res.status(500).json({ error: 'Failed to delete ticket: ' + error.message });
+    }
+  }
+);
+
 module.exports = router;
