@@ -26,10 +26,12 @@ const io = new Server(server, {
 //   crossOriginEmbedderPolicy: false
 // }));
 app.use(cors({
-  origin: ["http://localhost:4200", "http://127.0.0.1:4200"],
+  origin: ["http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:63782", "http://127.0.0.1:63782"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  preflightContinue: false,
+  optionsSuccessStatus: 200
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
